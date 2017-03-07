@@ -1,0 +1,86 @@
+<% include header %>
+
+<div class="jumbotron">
+        <h1>Congress Stalker</h1>
+       
+        
+
+    </div><!--div class="jumbotron"-->
+
+
+<% var titleString = "Senator"%>
+<% if(data.results[0].chamber === "house"){ %>
+	<%titleString = "Congressman"%>
+<% } %>
+
+<% var rankString = "Junior"%>
+<% if(data.results[0].state_rank == undefined){ %>
+	<%rankString = ""%>
+<% }else if(data.results[0].state_rank === "senior"){ %>
+	<%rankString = "Senior"%>
+<%}%>
+
+<div class="col-md-6">
+
+<h1> <%=data.results[0].first_name %> <%=data.results[0].last_name %> - <%=data.results[0].party %> <h1>
+
+
+<img src="https://theunitedstates.io/images/congress/450x550/<%=data.results[0].bioguide_id %>.jpg" alt="HTML5 Icon">
+
+</div>
+
+<h3> <%=data.results[0].first_name + " " + data.results[0].last_name + " is a " + rankString + " " + titleString + " from " + data.results[0].state_name + "." %> </h3>
+
+
+<%var twitterColor = "color:blue";%>
+       <%if(data.results[0].party === 'R'){twitterColor = "color:red";}
+       else if(data.results[0].party  === 'I'){twitterColor = "color:grey";} %>
+       <h2>Twitter Handle: </h2> <a href="https://twitter.com/<%=data.results[0].twitter_id%>" style=<%=twitterColor%> > @<%=data.results[0].twitter_id %>  </a>
+
+
+<%console.log("title: " +bill.results[0].short_title)%>
+
+
+<h2> <%= "Here are the Bills that " + titleString + " "+ data.results[0].first_name + " " + data.results[0].last_name + " has sponsored:" %> </h2>
+
+<table class="table">
+					<tr>
+						<td>Bill Title or ID</td>
+						
+						<td>Introduced</td>
+						<td>Amount of Cosponsors</td>
+						
+					</tr>
+
+<%var billName = "";%>
+
+<%for(var i = 0; i < bill.page.count; i++){ %>
+
+	<tr>
+							<td> 
+							<a href="/bill/<%=bill.results[i].bill_id%>"><%=bill.results[i].official_title %> </a>
+							
+							</td>
+							
+							<td>
+								<%=	bill.results[i].introduced_on%>
+							</td>
+							<td>
+								<%=	bill.results[i].cosponsors_count%>
+							</td>
+							
+	</tr>
+
+
+
+
+<%}%>
+ 
+<h3>Search a different zipcode: </h3>
+      
+       <form action="/search_results" method="post">
+			<input type="text" name= "zipcode" placeholder="Enter zipcode...">
+			<button>Launch Search</button>
+		</form>		
+
+<% include footer %>

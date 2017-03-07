@@ -1,0 +1,51 @@
+<% include header %>
+
+    <div class="jumbotron">
+        <h1>Congress Stalker</h1>
+        
+        
+
+    </div><!--div class="jumbotron"-->
+
+    
+       <h3>Here are the legislators in your area:</h3>
+
+      
+      <div class="row">
+
+       <%for(var i = 0; i < data.count; i++){ %>
+       <div class="col-md-4">
+
+       <a href="/legislator/<%=data.results[i].bioguide_id%>"> <%=data.results[i].first_name %> <%=data.results[i].last_name %> - <%=data.results[i].party %> </a>
+
+       
+
+       <%var twitterColor = "color:blue";%>
+       <%if(data.results[i].party === 'R'){twitterColor = "color:red";}
+       else if(data.results[i].party  === 'I'){twitterColor = "color:grey";} %>
+       <a href="https://twitter.com/<%=data.results[i].twitter_id%>" style=<%=twitterColor%> > @<%=data.results[i].twitter_id %>  </a>
+       
+       <img src="https://theunitedstates.io/images/congress/225x275/<%=data.results[i].bioguide_id %>.jpg" alt="HTML5 Icon">
+       </div>
+       
+       <% } %>
+
+       </div>
+      
+		<%=console.log("data: " + data) %>
+
+
+	<h3>Search a different zipcode: </h3>
+      
+ 
+      
+       <form action="/search_results" method="post">
+      <input type="text" name= "zipcode" placeholder="Enter zipcode...">
+      <button>Launch Search</button>
+    </form>   
+
+
+  
+
+
+<% include footer %>
